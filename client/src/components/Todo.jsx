@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Todo = () => {
   const [title,setTitle] = useState('');
@@ -8,6 +8,7 @@ const Todo = () => {
   const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const handleSubmit = () => {
      if (title.trim() !== "" && description.trim() !== "" && domain.trim() !== "") {
@@ -41,6 +42,17 @@ const Todo = () => {
     }
   };
 
+//reading data from API
+ const getItems =() =>
+  { 
+    fetch(apiurl + "/todos")
+    .then((res) => res.json())
+    .then((data) => setItems(data))
+    .catch((error) => setError(error.toString()));
+  }
+  useEffect(() => {
+    getItems();
+  }, []);
   return (
     <div className='App'>
       <h1>Todo List</h1>
