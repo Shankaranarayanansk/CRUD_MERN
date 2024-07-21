@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Todo.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Todo = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -7,7 +10,6 @@ const Todo = () => {
   const apiurl = "http://localhost:9000";
   const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
-  const [success, setSuccess] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [currentItemId, setCurrentItemId] = useState(null);
 
@@ -25,25 +27,25 @@ const Todo = () => {
       }).then((res) => {
         if (res.ok) {
           getItems();
-          setSuccess(editMode ? "Task Updated Successfully" : "Task Added Successfully");
+          toast.success(editMode ? "Task Updated Successfully" : "Task Added Successfully");
           setTitle('');
           setDescription('');
           setDomain('');
           setError(null);
           setEditMode(false);
-          setTimeout(() => {
-            setSuccess(null);
-          }, 3000);
         } else {
           res.json().then(data => {
             setError(data.error || "An error occurred");
+            toast.error(data.error || "An error occurred");
           });
         }
       }).catch(() => {
         setError("An error occurred");
+        toast.error("An error occurred");
       });
     } else {
       setError("All fields are required");
+      toast.error("All fields are required");
     }
   };
 
@@ -51,7 +53,10 @@ const Todo = () => {
     fetch(`${apiurl}/todos`)
       .then((res) => res.json())
       .then((data) => setItems(data))
-      .catch((error) => setError(error.toString()));
+      .catch((error) => {
+        setError(error.toString());
+        toast.error(error.toString());
+      });
   };
 
   const handleDelete = (id) => {
@@ -60,17 +65,16 @@ const Todo = () => {
     }).then((res) => {
       if (res.ok) {
         getItems();
-        setSuccess("Task Deleted Successfully");
-        setTimeout(() => {
-          setSuccess(null);
-        }, 3000);
+        toast.success("Task Deleted Successfully");
       } else {
         res.json().then(data => {
-          setError(data.error || "An error occurred");
+          // setError(data.error || "An error occurred");
+          toast.error(data.error || "An error occurred");
         });
       }
     }).catch(() => {
       setError("An error occurred");
+      toast.error("An error occurred");
     });
   };
 
@@ -91,7 +95,6 @@ const Todo = () => {
     <div className='App'>
       <h1>Todo List</h1>
       <h3>{editMode ? "Edit Task" : "Add a new task"}</h3>
-      {success && <p style={{ color: 'green' }}>{success}</p>}
       <div>
         <input
           type="text"
@@ -100,8 +103,8 @@ const Todo = () => {
           value={title}
         />
         <input
-          type="text"
-          placeholder='Description'
+          type="Date"
+          placeholder='Date'
           onChange={(e) => setDescription(e.target.value)}
           value={description}
         />
@@ -126,6 +129,7 @@ const Todo = () => {
           </li>
         ))}
       </ul>
+      <ToastContainer />
     </div>
   );
 };

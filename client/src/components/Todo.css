@@ -38,6 +38,16 @@ input[type="text"] {
   font-size: 14px;
   font-family: 'Poppins', sans-serif;
 }
+input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9;
+}
 
 button {
   background-color: #4CAF50;
