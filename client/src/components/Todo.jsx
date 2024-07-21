@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import './Todo.css'
+import './Todo.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Modal from 'react-modal';
 
 const Todo = () => {
   const [title, setTitle] = useState('');
@@ -12,6 +13,8 @@ const Todo = () => {
   const [items, setItems] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [currentItemId, setCurrentItemId] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   const handleSubmit = () => {
     if (title.trim() !== "" && description.trim() !== "" && domain.trim() !== "") {
@@ -66,9 +69,9 @@ const Todo = () => {
       if (res.ok) {
         getItems();
         toast.success("Task Deleted Successfully");
+        closeModal();
       } else {
         res.json().then(data => {
-          // setError(data.error || "An error occurred");
           toast.error(data.error || "An error occurred");
         });
       }
@@ -87,13 +90,23 @@ const Todo = () => {
     setCurrentItemId(id);
   };
 
+  const openModal = (id) => {
+    setItemToDelete(id);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setItemToDelete(null);
+  };
+
   useEffect(() => {
     getItems();
   }, []);
 
   return (
     <div className='App'>
-      <h1>Todo List</h1>
+      <h1>Crud MERN TO Do APP</h1>
       <h3>{editMode ? "Edit Task" : "Add a new task"}</h3>
       <div>
         <input
@@ -117,18 +130,38 @@ const Todo = () => {
         <button onClick={handleSubmit}>{editMode ? "Update" : "Add"}</button>
       </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <h3>Tasks</h3>
-      <ul>
-        {items.map((item) => (
-          <li key={item._id}>
-            {item.title} - {item.description} - {item.domain}
-            <div>
-              <button onClick={() => handleDelete(item._id)}>Delete</button>
-              <button onClick={() => handleUpdate(item._id)}>Update</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="task-table">
+  <div className="task-header">
+    <span>Title</span>
+    <span>Date</span>
+    <span>Domain</span>
+    <span>Actions</span>
+  </div>
+  <ul>
+    {items.map((item) => (
+      <li key={item._id}>
+        <span>{item.title}</span>
+        <span>{item.description}</span>
+        <span>{item.domain}</span>
+        <div>
+          <button onClick={() => openModal(item._id)}>Delete</button>
+          <button onClick={() => handleUpdate(item._id)}>Update</button>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Delete Confirmation"
+        ariaHideApp={false}
+      >
+        <h2>Confirm Delete</h2>
+        <p>Are you sure you want to delete this task?</p>
+        <button onClick={() => handleDelete(itemToDelete)}>Yes</button>
+        <button onClick={closeModal} className='no'>No</button>
+      </Modal>
       <ToastContainer />
     </div>
   );

@@ -2,51 +2,46 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f4f4f4;
+  background-color: #f5f5f5;
   margin: 0;
-  padding: 20px;
+  padding: 0;
 }
 
 .App {
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 8px;
+  max-width: fit-content;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 h1 {
   color: #333;
   text-align: center;
   margin-bottom: 30px;
-  font-weight: 600;
 }
 
 h3 {
-  color: #444;
-  margin-top: 20px;
-  font-weight: 500;
+  color: #555;
+  margin-top: 30px;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="date"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
   font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
 }
+
 input[type="date"] {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  font-family: 'Poppins', sans-serif;
-  background-color: #f9f9f9;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 button {
@@ -56,16 +51,14 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
   font-family: 'Poppins', sans-serif;
-  font-weight: 500;
   transition: background-color 0.3s;
-  
+  width: 100%;
 }
 
 button:hover {
   background-color: #45a049;
- }
+}
 
 ul {
   list-style-type: none;
@@ -80,7 +73,6 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
 }
 
 li div {
@@ -89,36 +81,99 @@ li div {
 }
 
 li button {
-  font-size: 12px;
   padding: 5px 10px;
+  font-size: 0.9em;
 }
 
-li button:nth-child(1) {
+li button:first-child {
   background-color: #f44336;
 }
 
-li button:nth-child(1):hover {
+li button:first-child:hover {
   background-color: #d32f2f;
 }
 
-li button:nth-child(2) {
+li button:last-child {
   background-color: #2196F3;
 }
 
-li button:nth-child(2):hover {
+li button:last-child:hover {
   background-color: #1976D2;
 }
 
-p {
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.ReactModal__Content {
+  max-width: 400px;
+  max-height: fit-content;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  border-color: #4CAF50;
   text-align: center;
-  font-weight: 500;
-  margin-top: 10px;
 }
 
-p[style*="color: green"] {
-  color: #4CAF50;
+.ReactModal__Content h2 {
+  margin-top: 0;
 }
 
-p[style*="color: red"] {
-  color: #f44336;
+.ReactModal__Content button {
+  margin: 0 10px;
+}
+.no{
+  background-color: #f44336;
+}
+.task-table {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.task-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  padding: 10px 15px;
+}
+
+.task-header span {
+  padding: 0 10px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  align-items: center;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+}
+
+li span {
+  padding: 0 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+li div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+li:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+li:hover {
+  background-color: #f5f5f5;
 }
